@@ -6,6 +6,15 @@ services:
         restart: always
         ports:
             - '3000:3000'
+        volumes:
+            # в первую очередь сохраняем папку node-modules
+            #  которая в папке app
+            - /app/node_modules
+            # указываем относительный путь к папке
+            # frontend (./) путь относительно ф-ла
+            # docker-compose и куда мы ее монтируем в контейнере
+            # в папку app
+            - ./frontend:/app
     api:
         build: ./api
         restart: always
@@ -18,6 +27,21 @@ services:
         depends_on:
             mysql:
                 condition: service_healthy
+        volumes:
+            # в первую очередь сохраняем папку node-modules
+            #  которая в папке app
+            - /app/node_modules
+            # указываем относительный путь к папке
+            # api (./) путь относительно ф-ла
+            # docker-compose и куда мы ее монтируем в контейнере
+            # - в папку app
+            - ./api:/app
+        environment:
+            MYSQL_HOST: mysql
+            MYSQL_USER: root
+            MYSQL_PORT: '3306'
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: time_db
     mysql:
         image: mysql
         restart: always
@@ -31,6 +55,7 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: password
             MYSQL_DATABASE: time_db
+            # Связь с томом сохраненных данных
         volumes:
             - mysql_data:/var/lib/mysql
     adminer:
@@ -38,6 +63,7 @@ services:
         restart: always
         ports:
             - '8888:8080'
-
+# Подключение тома для сохранения данных при
+# перезапуске контейнеров
 volumes:
     mysql_data:
