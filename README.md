@@ -1,6 +1,5 @@
-# Time Application
-
-Time application consists of the frontend and backend parts
-Frontend is written with help of the Vue.js framework
-Backend is written using Node.js and Express
-Database is MySQL
+## Бэкенд и фронтенд приложение в Docker. 
+### Функционал. 
+Простой фиксатор текущего времени с сохранением данных. 
+### Программная реализация.
+__Docker, Node.js, Express, VueJS__. База данных - __MySQL__.
